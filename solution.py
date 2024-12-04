@@ -1,3 +1,4 @@
+#While loop that runs until a full match is found
 while True:
     #.strip() removes any whitespace before and after
     userInput = input("Enter a password: ").strip()
@@ -5,7 +6,7 @@ while True:
     passwords = []
     char_count = 0
 
-    #While loop that runs until a full match is found
+
     while dynamic_input:
         temp = ""
         #Used to ensure the correct word is stored if words are similar (hell and hello)
