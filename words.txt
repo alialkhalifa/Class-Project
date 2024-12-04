@@ -1,0 +1,5 @@
+boat
+cat
+dog
+bird
+tiger
