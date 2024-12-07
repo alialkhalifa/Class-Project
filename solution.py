@@ -30,9 +30,6 @@ while True:
     password = []
     r_input = user_input
 
-    # Start timer for processing the password
-    start_processing = time.time()
-
     # Break password into dictionary words
     while r_input:
         match_found = False
@@ -45,9 +42,6 @@ while True:
         if not match_found:
             print("Invalid password")
             break
-
-    # Stop processing timer
-    elapsed_processing = time.time() - start_processing
 
     if not r_input:
 
