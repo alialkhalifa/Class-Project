@@ -30,6 +30,7 @@ while True:
         #so the found word is cut out
         if match_found:
             hashed_word = hashlib.sha256(longest_match.encode()).hexdigest()
+            hashed_word2 = hashlib.sha512(longest_match.encode()).hexdigest()
             passwords.append(hashed_word)
             char_count += len(longest_match)
             dynamic_input = userInput[char_count:]
