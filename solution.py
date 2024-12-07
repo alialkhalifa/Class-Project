@@ -12,53 +12,64 @@ def hash_password(password, algorithm):
     )
     return binascii.hexlify(hashed_pwd)
 
-# Start timer
-start = time.time()
-
-# Input password
-user_input = input("Enter a password: ").strip()
-
-# Read words from dictionary and keeps it in a list
+# Load the dictionary into a list once
 dict_array = []
 with open("words.txt", "r") as dict_file:
     for line in dict_file:
         dict_array.append(line.rstrip('\n'))
 
+# Main loop to repeatedly take password input
+while True:
+    user_input = input("Enter a password (or 'q' to quit): ").strip()
 
-password = []
-r_input = user_input
-
-while r_input:
-    match_found = False
-    for word in dict_array:
-        if r_input.startswith(word):
-            password.append(word)
-            r_input = r_input[len(word):]
-            match_found = True
-            break
-    if not match_found:
-        print("Invalid password")
+    # Quit the program if 'q' is entered
+    if user_input.lower() == 'q':
+        print("Exiting program.")
         break
 
-if not r_input:
-    print("Password broken into words:", password)
-    for segment in password:
-        # Hash with SHA256
+    password = []
+    r_input = user_input
+
+    # Start timer for processing the password
+    start_processing = time.time()
+
+    # Break password into dictionary words
+    while r_input:
+        match_found = False
+        for word in dict_array:
+            if r_input.startswith(word):
+                password.append(word)
+                r_input = r_input[len(word):]
+                match_found = True
+                break
+        if not match_found:
+            print("Invalid password")
+            break
+
+    # Stop processing timer
+    elapsed_processing = time.time() - start_processing
+
+    if not r_input:
+
+        # Join password segments for full password hash
+        full_password = ''.join(password)
+
+        # Start timing for SHA256 hashing the full password
         start_sha256 = time.time()
-        sha256_hash = hash_password(segment, 'sha256').decode('utf-8')
+        sha256_hash = hash_password(full_password, 'sha256').decode('utf-8')
         elapsed_sha256 = time.time() - start_sha256
 
-        # Hash with SHA512
+        # Start timing for SHA512 hashing the full password
         start_sha512 = time.time()
-        sha512_hash = hash_password(segment, 'sha512').decode('utf-8')
+        sha512_hash = hash_password(full_password, 'sha512').decode('utf-8')
         elapsed_sha512 = time.time() - start_sha512
 
         # Print results
-        print(f"\nCracked SHA256: {segment}")
-        print(f"SHA256 Hash: {sha256_hash}")
-        print(f"Time to crack: {elapsed_sha256} seconds")
-        
-        print(f"\nCracked SHA512: {segment}")
-        print(f"SHA512 Hash: {sha512_hash}")
-        print(f"Time to crack: {elapsed_sha512} seconds")
+        print(f"\nSHA256 Hash: {sha256_hash}")
+        print(f"SHA512 Hash: {sha512_hash}\n")
 
+        print(f"Cracked SHA256: {full_password}")
+        print(f"Time to hash SHA256: {elapsed_sha256} seconds")
+
+        print(f"Cracked SHA512: {full_password}")
+        print(f"Time to hash SHA512: {elapsed_sha512} seconds\n")
