@@ -1,4 +1,8 @@
+import hashlib
+
 #While loop that runs until a full match is found
+
+
 while True:
     #.strip() removes any whitespace before and after
     userInput = input("Enter a password: ").strip()
@@ -7,6 +11,7 @@ while True:
     char_count = 0
 
 
+    
     while dynamic_input:
         temp = ""
         #Used to ensure the correct word is stored if words are similar (hell and hello)
@@ -24,7 +29,8 @@ while True:
         #update the counter variable and slice the dynamic_input so
         #so the found word is cut out
         if match_found:
-            passwords.append(longest_match)
+            hashed_word = hashlib.sha256(longest_match.encode()).hexdigest()
+            passwords.append(hashed_word)
             char_count += len(longest_match)
             dynamic_input = userInput[char_count:]
         else:
