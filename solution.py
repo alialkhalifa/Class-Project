@@ -29,11 +29,13 @@ while True:
 
     password = []
     r_input = user_input
-
+    guess_count = 0
+    start_time = time.time()
     # Break password into dictionary words
     while r_input:
         match_found = False
         for word in dict_array:
+            guess_count+=1;
             if r_input.startswith(word):
                 password.append(word)
                 r_input = r_input[len(word):]
@@ -49,14 +51,15 @@ while True:
         full_password = ''.join(password)
 
         # Start timing for SHA256 hashing the full password
+        guessing_time = time.time() - start_time
         start_sha256 = time.time()
         sha256_hash = hash_password(full_password, 'sha256').decode('utf-8')
-        elapsed_sha256 = time.time() - start_sha256
+        elapsed_sha256 = time.time() - start_sha256 + guessing_time
 
         # Start timing for SHA512 hashing the full password
         start_sha512 = time.time()
         sha512_hash = hash_password(full_password, 'sha512').decode('utf-8')
-        elapsed_sha512 = time.time() - start_sha512
+        elapsed_sha512 = time.time() - start_sha512 + guessing_time
 
         # Print results
         print(f"\nSHA256 Hash: {sha256_hash}")
@@ -67,3 +70,5 @@ while True:
 
         print(f"Cracked SHA512: {full_password}")
         print(f"Time to hash SHA512: {elapsed_sha512} seconds\n")
+
+        print(f"Total guesses made: {guess_count}")
