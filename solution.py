@@ -1,7 +1,7 @@
 import hashlib
 import binascii
 import time
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # type: ignore
 
 # Hash function with swertyPBKDF2-HMAC
 def hash_password(password, algorithm):
@@ -30,10 +30,14 @@ while True:
     # Quit the program if 'q' is entered
     if user_input.lower() == 'q':
         print("Exiting program.")
-        plt.plot(sha256_time_array, guess_array, 'ro')
-        plt.plot(sha512_time_array, guess_array, 'bo')
-        plt.xlabel('Time to Crack')
-        plt.ylabel('Number of guesses')
+        plt.plot(sha256_time_array, guess_array, 'ro', label='SHA256 (Red)')
+        plt.plot(sha512_time_array, guess_array, 'bo', label='SHA512 (Blue)')
+        plt.xlabel('Time to Crack (seconds)')
+        plt.ylabel('Number of Guesses')
+        plt.title('Password Cracking Time vs. Number of Guesses')
+        dictionary_size = len(dict_array)
+        legend_text = f"Dictionary Size: {dictionary_size} words"
+        plt.legend(title=legend_text, loc='upper left')
         plt.show()
         break
 
