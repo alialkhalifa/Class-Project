@@ -1,6 +1,7 @@
 import hashlib
 import binascii
 import time
+import matplotlib.pyplot as plt
 
 # Hash function with PBKDF2-HMAC
 def hash_password(password, algorithm):
@@ -14,6 +15,9 @@ def hash_password(password, algorithm):
 
 # Load the dictionary into a list once
 dict_array = []
+sha256_time_array = []
+sha512_time_array = []
+guess_array = []
 with open("words.txt", "r") as dict_file:
     for line in dict_file:
         dict_array.append(line.rstrip('\n'))
@@ -26,6 +30,9 @@ while True:
     # Quit the program if 'q' is entered
     if user_input.lower() == 'q':
         print("Exiting program.")
+        plt.plot(sha256_time_array, guess_array, 'ro')
+        plt.plot(sha512_time_array, guess_array, 'ro')
+        plt.show()
         break
 
     password = []
@@ -55,11 +62,15 @@ while True:
         start_sha256 = time.time()
         sha256_hash = hash_password(full_password, 'sha256').decode('utf-8')
         elapsed_sha256 = time.time() - start_sha256 + cracking_time
+        sha256_time_array.append(elapsed_sha256)
 
         # Start timing for SHA512 hashing the full password
         start_sha512 = time.time()
         sha512_hash = hash_password(full_password, 'sha512').decode('utf-8')
         elapsed_sha512 = time.time() - start_sha512 + cracking_time
+        sha512_time_array.append(elapsed_sha256)
+
+        guess_array.append(guess_count)
 
         # Print results
         print(f"\nSHA256 Hash: {sha256_hash}")
@@ -72,3 +83,7 @@ while True:
         print(f"Time to hash SHA512: {elapsed_sha512} seconds\n")
 
         print(f"Total guesses made: {guess_count}")
+
+print(sha256_time_array)
+print(sha512_time_array)
+print(guess_array)
