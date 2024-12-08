@@ -49,17 +49,16 @@ while True:
 
         # Join password segments for full password hash
         full_password = ''.join(password)
-
+        cracking_time = time.time() - start_time
         # Start timing for SHA256 hashing the full password
-        guessing_time = time.time() - start_time
         start_sha256 = time.time()
         sha256_hash = hash_password(full_password, 'sha256').decode('utf-8')
-        elapsed_sha256 = time.time() - start_sha256 + guessing_time
+        elapsed_sha256 = time.time() - start_sha256 + cracking_time
 
         # Start timing for SHA512 hashing the full password
         start_sha512 = time.time()
         sha512_hash = hash_password(full_password, 'sha512').decode('utf-8')
-        elapsed_sha512 = time.time() - start_sha512 + guessing_time
+        elapsed_sha512 = time.time() - start_sha512 + cracking_time
 
         # Print results
         print(f"\nSHA256 Hash: {sha256_hash}")
