@@ -19,6 +19,7 @@ with open("words.txt", "r") as dict_file:
         dict_array.append(line.rstrip('\n'))
 
 # Main loop to repeatedly take password input
+dict_array.sort(key=lambda x: len(x), reverse=True)
 while True:
     user_input = input("Enter a password (or 'q' to quit): ").strip()
 
