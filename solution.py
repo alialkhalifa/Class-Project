@@ -31,7 +31,9 @@ while True:
     if user_input.lower() == 'q':
         print("Exiting program.")
         plt.plot(sha256_time_array, guess_array, 'ro')
-        plt.plot(sha512_time_array, guess_array, 'ro')
+        plt.plot(sha512_time_array, guess_array, 'bo')
+        plt.xlabel('Time to Crack')
+        plt.ylabel('Number of guesses')
         plt.show()
         break
 
