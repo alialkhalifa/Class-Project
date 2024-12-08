@@ -3,7 +3,7 @@ import binascii
 import time
 import matplotlib.pyplot as plt
 
-# Hash function with PBKDF2-HMAC
+# Hash function with swertyPBKDF2-HMAC
 def hash_password(password, algorithm):
     hashed_pwd = hashlib.pbkdf2_hmac(
         algorithm,  # Hash function
@@ -68,7 +68,7 @@ while True:
         start_sha512 = time.time()
         sha512_hash = hash_password(full_password, 'sha512').decode('utf-8')
         elapsed_sha512 = time.time() - start_sha512 + cracking_time
-        sha512_time_array.append(elapsed_sha256)
+        sha512_time_array.append(elapsed_sha512)
 
         guess_array.append(guess_count)
 
@@ -81,8 +81,6 @@ while True:
 
         print(f"Cracked SHA512: {full_password}")
         print(f"Time to hash SHA512: {elapsed_sha512} seconds\n")
-
-        print(f"Total guesses made: {guess_count}")
 
 print(sha256_time_array)
 print(sha512_time_array)
